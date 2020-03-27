@@ -2,10 +2,10 @@ FROM alpine as staging
 
 RUN sed -i -e 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/' /etc/apk/repositories \
 && apk update \
-&& apk add php7 php7-dev m4 autoconf make gcc g++ linux-headers
+&& apk add openssl openssl-dev php7 php7-dev php7-openssl m4 autoconf make gcc g++ linux-headers
 ADD swoole-4.4.16.tgz /tmp
 WORKDIR /tmp/swoole-4.4.16
-RUN phpize  &&  ./configure &&  make  && make install
+RUN phpize  &&  ./configure --enable-openssl &&  make  && make install
 
 FROM alpine
 
